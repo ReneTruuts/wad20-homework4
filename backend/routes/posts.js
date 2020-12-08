@@ -24,9 +24,19 @@ router.get('/', authorize, (request, response) => {
 
 router.post('/', authorize,  (request, response) => {
 
-    // Endpoint to create a new post
-
-});
+    let text = request.body.text;
+        if (!text) {
+            response.json({ message: "Please provide post text"}, 400)
+        }
+        if (media && typeof media != 'object') {
+            response.json (
+                {
+                    message: "Please provide properly formatted media"
+                },
+                400
+            )
+        }
+    });
 
 
 router.put('/:postId/likes', authorize, (request, response) => {
