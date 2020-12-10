@@ -17,7 +17,7 @@ router.post('/', (request, response) => {
 
     const fieldMissing = {
         code: null,
-        message: 'Please provide %s field'
+        message: 'Please provide %s'
     };
 
     for (let field in form) {
