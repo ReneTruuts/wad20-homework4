@@ -21,17 +21,19 @@ router.get('/', authorize, (request, response) => {
 });
 
 router.post('/', authorize,  (request, response) => {
+
     // Endpoint to create a new post
 
     const post = request.body;
     const userId = request.currentUser.id;
-
     PostModel.create({userId, post},() => {
         response.status(201).json()
     })
 });
 
+
 router.put('/:postId/likes', authorize, (request, response) => {
+
     // Endpoint for current user to like a post
 
     const userId= request.currentUser.id;
@@ -43,8 +45,9 @@ router.put('/:postId/likes', authorize, (request, response) => {
 });
 
 router.delete('/:postId/likes', authorize, (request, response) => {
-    // Endpoint for current user to unlike a post
 
+    // Endpoint for current user to unlike a post
+    
     const userId= request.currentUser.id;
     const postId = request.params.postId;
 
