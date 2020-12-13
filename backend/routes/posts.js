@@ -21,80 +21,36 @@ router.get('/', authorize, (request, response) => {
 });
 
 router.post('/', authorize,  (request, response) => {
+    // Endpoint to create a new post
 
-    /*let form = {
-        userId: {required: true},
-        text: {required: true},
-        createTime: {required: true},
-        likes: {required: false},
-        liked: {required: false},
-        media: {
-            url: {required: false},
-            type: {required: false},
-        }
-    };
-
-
-    const fieldMissing = {
-        code: null,
-        message: 'Please provide %s'
-    };
-
-    for (let field in form) {
-        if (form[field].required === true && !request.body[field]) {
-
-            fieldMissing.code = field;
-            fieldMissing.message = fieldMissing.message.replace('%s', field);
-
-            response.json(fieldMissing, 400);
-            return;
-        }
-    }
-
-        if (!text) {
-            response.json({ message: "Please provide post text"}, 400)
-        }
-
-    if (url && typeof type != 'object') {
-            response.json ({message: "Please provide properly formatted media"}, 400)
-        }
-
-    let params = {
-        userId: request.currentUser.id,
-        text: request.body.text,
-        createTime: request.body.createTime,
-        media: {
-            type: request.body.media.type,
-            url: request.body.media.url
-        },
-    }
-
-    PostModel.create(params, () => {
-        response.status(201).json()
-    });*/
-
-    const userId = request.currentUser.id;
     const post = request.body;
-    PostModel.create({ userId, ...post }, () => {
-        console.log("Created new post");
-        response.json(post)
+    const userId = request.currentUser.id;
+
+    PostModel.create({userId, post},() => {
+        response.status(201).json()
     })
 });
 
-
 router.put('/:postId/likes', authorize, (request, response) => {
-
     // Endpoint for current user to like a post
 
-    PostModel.like(request.currentUser.id, request.params.postId, () => {
+    const userId= request.currentUser.id;
+    const postId = request.params.postId;
+
+    PostModel.like(userId, postId, () => {
         response.status(200).json()
     })
 });
 
 router.delete('/:postId/likes', authorize, (request, response) => {
-
     // Endpoint for current user to unlike a post
 
+    const userId= request.currentUser.id;
+    const postId = request.params.postId;
+
+    PostModel.unlike(userId, postId, () => {
+        response.status(200).json()
+    })
 });
 
 module.exports = router;
