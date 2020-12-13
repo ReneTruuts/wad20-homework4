@@ -22,7 +22,7 @@ router.get('/', authorize, (request, response) => {
 
 router.post('/', authorize,  (request, response) => {
 
-    let form = {
+    /*let form = {
         userId: {required: true},
         text: {required: true},
         createTime: {required: true},
@@ -71,7 +71,14 @@ router.post('/', authorize,  (request, response) => {
 
     PostModel.create(params, () => {
         response.status(201).json()
-    });
+    });*/
+
+    const userId = request.currentUser.id;
+    const post = request.body;
+    PostModel.create({ userId, ...post }, () => {
+        console.log("Created new post");
+        response.json(post)
+    })
 });
 
 
